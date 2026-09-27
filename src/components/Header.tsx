@@ -33,7 +33,7 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           ) : (
             <img
-              alt="PhonePe Logo"
+              alt="UPI Recover logo"
               className="h-8 w-auto object-contain flex-shrink-0"
               src={ASSETS.phonePeLogo}
             />

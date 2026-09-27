@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UPI Recover — Wrong-UPI Payment Recovery</title>
+<meta name="description" content="PM case study: a wrong-UPI-payment recovery flow for PhonePe. Problem, metrics, personas, competitor research, RICE and requirements, plus a clickable prototype.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' rx='22' fill='%236b2fd6'/%3E%3Ctext x='40' y='54' text-anchor='middle' font-family='Arial' font-size='40' font-weight='800' fill='%23ffd94d'%3E%E2%82%B9%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #17162a; --muted: #55536b; --bg: #fbfaf7; --card: #ffffff; --line: #ebe7f3;
+    --pur: #6b2fd6; --pur-bg: #f0eafc; --red: #e5484d; --red-bg: #fdecee;
+    --yel-bg: #fff6dc; --blu: #2f7fe0; --blu-bg: #e8f1fd; --grn: #25a55f; --grn-bg: #e6f6ec;
+    --hl: #ffd94d;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #f1eff8; --muted: #b3afc6; --bg: #121120; --card: #1c1a2e; --line: #2d2a44;
+      --pur-bg: #2a2145; --red-bg: #3a1f26; --yel-bg: #3a321a; --blu-bg: #1b2a44; --grn-bg: #1b3326; --hl: #8a6d00;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, "Segoe UI", sans-serif; color: var(--ink); background: var(--bg); line-height: 1.55; }
+  a { color: var(--pur); }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+  .hand { font-family: Caveat, "Segoe Print", cursive; }
+  mark { background: linear-gradient(transparent 58%, var(--hl) 58%, var(--hl) 92%, transparent 92%); color: inherit; padding: 0 3px; }
+
+  nav { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  nav .wrap { display: flex; align-items: center; gap: 22px; height: 60px; overflow-x: auto; }
+  nav .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; white-space: nowrap; text-decoration: none; color: var(--ink); }
+  nav .mark { width: 30px; height: 30px; border-radius: 9px; background: var(--pur); color: #ffd94d; display: grid; place-items: center; font-weight: 800; }
+  nav a.l { font-size: 14px; font-weight: 600; color: var(--muted); text-decoration: none; white-space: nowrap; }
+  nav a.l:hover { color: var(--ink); }
+
+  header.hero { padding: 64px 0 40px; }
+  .eyebrow { font-size: 13px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--pur); }
+  h1 { font-size: clamp(36px, 6vw, 64px); font-weight: 900; letter-spacing: -.02em; line-height: 1.05; margin: 10px 0 16px; }
+  .lede { font-size: clamp(17px, 2.2vw, 21px); color: var(--muted); max-width: 760px; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 12px; font-weight: 700; text-decoration: none; border: 2px solid var(--pur); }
+  .btn.primary { background: var(--pur); color: #fff; }
+  .btn.ghost { color: var(--pur); background: transparent; }
+  .note { display: inline-block; background: #fff4c4; color: #3d3b52; padding: 10px 16px; font-size: 24px; transform: rotate(-1.5deg); margin-top: 28px; box-shadow: 0 5px 12px rgba(0,0,0,.08); }
+
+  section { padding: 44px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: clamp(26px, 3.4vw, 34px); font-weight: 800; letter-spacing: -.01em; margin-bottom: 18px; }
+  h3 { font-size: 19px; font-weight: 800; margin-bottom: 8px; }
+  p + p { margin-top: 10px; }
+  .grid { display: grid; gap: 18px; }
+  .g2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .g3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 22px; }
+  .tint-red { background: var(--red-bg); border: none; } .tint-grn { background: var(--grn-bg); border: none; }
+  .tint-blu { background: var(--blu-bg); border: none; } .tint-pur { background: var(--pur-bg); border: none; } .tint-yel { background: var(--yel-bg); border: none; }
+  ul.clean { list-style: none; } ul.clean li { padding: 5px 0 5px 22px; position: relative; }
+  ul.clean li::before { content: "→"; position: absolute; left: 0; color: var(--pur); font-weight: 800; }
+  .num { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; color: #fff; font-weight: 800; margin-bottom: 10px; }
+  .kpi { font-size: 22px; font-weight: 800; line-height: 1.3; }
+  .formula { font-family: ui-monospace, Consolas, monospace; font-size: 14px; background: var(--card); border-radius: 10px; padding: 8px 12px; display: inline-block; margin-top: 10px; }
+
+  figure { margin: 0; }
+  figure img { width: 100%; height: auto; border-radius: 16px; border: 1px solid var(--line); display: block; background: #fff; }
+  figcaption { font-size: 14px; color: var(--muted); margin-top: 8px; }
+  .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .tabs button { font: inherit; font-weight: 700; font-size: 15px; padding: 9px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer; }
+  .tabs button[aria-selected="true"] { background: var(--pur); color: #fff; border-color: var(--pur); }
+  .panel[hidden] { display: none; }
+
+  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 16px; overflow: hidden; }
+  th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--line); font-size: 15px; }
+  th { background: var(--pur); color: #fff; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; }
+  .tscroll { overflow-x: auto; border-radius: 16px; border: 1px solid var(--line); }
+  .pill { display: inline-block; font-size: 12px; font-weight: 800; padding: 3px 10px; border-radius: 999px; }
+  .H { background: var(--grn-bg); color: var(--grn); } .M { background: var(--yel-bg); color: #9a5b00; } .L { background: var(--red-bg); color: var(--red); }
+  .P { background: var(--pur); color: #fff; }
+
+  .nfr { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+  .nfr div { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; display: flex; gap: 14px; align-items: flex-start; }
+  .nfr b.letter { flex: none; width: 38px; height: 38px; border-radius: 10px; background: var(--pur-bg); color: var(--pur); display: grid; place-items: center; font-size: 18px; }
+  .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
+  .shots img { border-radius: 22px; }
+  footer { padding: 40px 0 60px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); }
+  @media (max-width: 600px) { header.hero { padding-top: 40px; } .card { padding: 18px; } }
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <a class="brand" href="#top"><span class="mark">₹</span>UPI Recover</a>
+  <a class="l" href="#problem">Problem</a>
+  <a class="l" href="#users">Users</a>
+  <a class="l" href="#research">Research</a>
+  <a class="l" href="#solution">Solution</a>
+  <a class="l" href="#requirements">Requirements</a>
+  <a class="l" href="#screens">Screens</a>
+  <a class="l" href="app/">Prototype</a>
+</div></nav>
+
+<header class="hero" id="top"><div class="wrap">
+  <div class="eyebrow">PM case study · PhonePe · Wrong-UPI payment recovery</div>
+  <h1>Sent money to the <mark>wrong UPI ID?</mark><br>Get it back, step by step.</h1>
+  <p class="lede">A product concept that lets a PhonePe user start recovery in one tap, lets the recipient return the money in one tap, and shows both of them exactly where the case stands.</p>
+  <div class="ctas">
+    <a class="btn primary" href="app/">▶ Try the prototype</a>
+    <a class="btn ghost" href="https://github.com/cercit/PRD_Workshop/blob/main/docs/PRD.md">Read the PRD</a>
+    <a class="btn ghost" href="https://github.com/cercit/PRD_Workshop">View on GitHub</a>
+  </div>
+  <div class="note hand">"One wrong digit and the money's gone. Now what?"</div>
+</div></header>
+
+<section id="problem"><div class="wrap">
+  <h2>The problem</h2>
+  <div class="grid g2">
+    <div class="card tint-red">
+      <h3>What happens today</h3>
+      <p>When a user sends money to the wrong UPI ID, there is no undo. They have to deal with the recipient, their bank, the recipient's bank, NPCI and sometimes the RBI Ombudsman, with little idea who owns the case or what comes next.</p>
+      <p>Money can only come back if the recipient agrees, so every day of delay makes recovery less likely.</p>
+    </div>
+    <div class="card">
+      <h3>Goals</h3>
+      <ul class="clean"><li>Faster recovery initiation</li><li>A transparent, trackable process</li><li>More wrong payments actually recovered</li></ul>
+      <h3 style="margin-top:14px">Non-goals</h3>
+      <ul class="clean"><li>Guaranteeing every reversal</li><li>Reversing payments directly</li><li>Preventing every accidental payment</li></ul>
+    </div>
+  </div>
+  <div class="grid g3" style="margin-top:18px">
+    <div class="card tint-pur"><div class="eyebrow">North Star</div><div class="kpi">% of eligible wrong-UPI cases recovered</div><div class="formula">recovered ÷ eligible × 100</div></div>
+    <div class="card tint-grn"><div class="eyebrow">L1 metrics</div><div class="kpi" style="font-size:18px">Recovery success rate · successful recoveries · median recovery time</div></div>
+    <div class="card tint-yel"><div class="eyebrow">Counter metrics</div><div class="kpi" style="font-size:18px">Abandonment rate · recovery complaints · % needing manual help</div></div>
+  </div>
+</div></section>
+
+<section id="users"><div class="wrap">
+  <h2>Who it's for</h2>
+  <p style="color:var(--muted);margin-bottom:16px">Two personas with the same problem: Ritika, a metro salaried user, and Sunita, a tier-2 shop owner who needs Hindi, a person to call and a flow that works on slow internet.</p>
+  <div class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-p="p1">Personas</button>
+    <button role="tab" aria-selected="false" data-p="p2">Empathy map</button>
+    <button role="tab" aria-selected="false" data-p="p3">Journey map</button>
+  </div>
+  <figure class="panel" id="p1"><a href="images/persona-poster.png"><img src="images/persona-poster.png" alt="User persona poster: Ritika Sharma and Sunita Yadav" loading="lazy" width="1920" height="1080"></a><figcaption>Tap to open full size.</figcaption></figure>
+  <figure class="panel" id="p2" hidden><a href="images/empathy-map.png"><img src="images/empathy-map.png" alt="Empathy map: what Ritika thinks, sees, hears and feels" loading="lazy" width="1920" height="1080"></a><figcaption>Think · See · Hear · Feel, and the problem-to-outcome chain.</figcaption></figure>
+  <figure class="panel" id="p3" hidden><a href="images/journey-map.png"><img src="images/journey-map.png" alt="Customer journey map from awareness to loyalty" loading="lazy" width="1920" height="1080"></a><figcaption>Five stages, from panic to trust, with pain points and opportunities.</figcaption></figure>
+</div></section>
+
+<section id="research"><div class="wrap">
+  <h2>What competitors do</h2>
+  <p style="color:var(--muted);margin-bottom:16px">15 features benchmarked across Google Pay, Paytm, BHIM, NPCI and payment systems in the UK, EU, Australia, Brazil and the US. <a href="https://github.com/cercit/PRD_Workshop/blob/main/docs/competitor-features.md">Full research with sources →</a></p>
+  <div class="grid g3">
+    <div class="card"><h3>India today</h3><p>Every app shows the payee's bank name before paying, and routes complaints through NPCI's UDIR. But the dispute is a generic form, sometimes locked for 2 days, and the recipient returning the money stays voluntary.</p></div>
+    <div class="card"><h3>Brazil (Pix)</h3><p>The recipient gets a "Return payment" button, a one-tap full or partial return within 90 days. A contest button makes the receiving bank freeze the funds.</p></div>
+    <div class="card"><h3>Australia</h3><p>Report a mistaken payment within 10 business days and the money comes back, even without the recipient agreeing, if it's still there. Speed is everything.</p></div>
+  </div>
+  <p style="margin-top:16px"><b>The gap:</b> no Indian app has a recovery flow built for wrong-payee mistakes, with an owner, a deadline and an easy way for the recipient to return the money.</p>
+</div></section>
+
+<section id="solution"><div class="wrap">
+  <h2>The solution</h2>
+  <div class="grid g3">
+    <div class="card tint-red"><span class="num" style="background:var(--red)">1</span><h3>One-tap Recover</h3><p>A "Recover payment" button on every UPI receipt that sends a pre-filled recovery request in seconds, so users report while the money can still be traced.</p></div>
+    <div class="card tint-grn"><span class="num" style="background:var(--grn)">2</span><h3>Easy Return</h3><p>The recipient gets a clear request with a one-tap "Return payment" button, so returning a wrong payment is easier than ignoring it.</p></div>
+    <div class="card tint-blu"><span class="num" style="background:var(--blu)">3</span><h3>Live Tracker</h3><p>A plain-language timeline showing who has the case, what happens next and by when, so users can see progress instead of chasing support.</p></div>
+  </div>
+  <h3 style="margin:28px 0 12px">RICE-inspired prioritisation</h3>
+  <div class="tscroll"><table>
+    <thead><tr><th>Opportunity</th><th>Reach</th><th>Impact</th><th>Confidence</th><th>Effort</th><th>Priority</th></tr></thead>
+    <tbody>
+      <tr><td><b>One-tap Recover</b></td><td><span class="pill H">High</span></td><td><span class="pill H">High</span></td><td><span class="pill H">High</span></td><td><span class="pill H">Low</span></td><td><span class="pill P">P0</span></td></tr>
+      <tr><td><b>Easy Return</b></td><td><span class="pill H">High</span></td><td><span class="pill M">Med</span></td><td><span class="pill H">High</span></td><td><span class="pill M">Med</span></td><td><span class="pill P">P1</span></td></tr>
+      <tr><td><b>Live Tracker</b></td><td><span class="pill M">Med</span></td><td><span class="pill H">High</span></td><td><span class="pill M">Med</span></td><td><span class="pill L">High</span></td><td><span class="pill P">P2</span></td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+<section id="requirements"><div class="wrap">
+  <h2>Requirements</h2>
+  <div class="card tint-pur" style="margin-bottom:16px"><h3>Functional</h3><p>Users can raise a recovery request in one tap from any UPI receipt, with the payment details filled in automatically. The recipient gets a one-tap option to return the money, and both sides can follow the case on a live tracker from start to close.</p></div>
+  <div class="nfr">
+    <div><b class="letter">P</b><p><b>Performance:</b> request sent within 10 seconds; tracker updates within 1 minute of a bank update; works on 3G.</p></div>
+    <div><b class="letter">Q</b><p><b>Quality:</b> requests auto-filled and eligibility-checked; under 2% sent back for errors.</p></div>
+    <div><b class="letter">R</b><p><b>Reliability:</b> one case per payment; no request lost if the app or network drops.</p></div>
+    <div><b class="letter">S</b><p><b>Secure:</b> encrypted, stored in India, DPDP-compliant; returns need a UPI PIN and a real payment.</p></div>
+    <div><b class="letter">T</b><p><b>Transparency:</b> every case shows owner, next step, deadline and final outcome.</p></div>
+    <div><b class="letter">U</b><p><b>Usability:</b> 3 taps or fewer, no jargon, available in 5+ Indian languages.</p></div>
+  </div>
+</div></section>
+
+<section id="screens"><div class="wrap">
+  <h2>Screens</h2>
+  <p style="color:var(--muted);margin-bottom:16px">Mock-ups of the core flow. <a href="app/">Open the clickable prototype →</a></p>
+  <div class="shots">
+    <figure><img src="mockups/1._transaction_receipt_one_tap_recover/screen.png" alt="Transaction receipt with a Recover payment button" loading="lazy"><figcaption>1 · Receipt with one-tap Recover</figcaption></figure>
+    <figure><img src="mockups/2._recovery_request_submission/screen.png" alt="Pre-filled recovery request submission" loading="lazy"><figcaption>2 · Pre-filled request</figcaption></figure>
+    <figure><img src="mockups/3._recipient_easy_return_screen/screen.png" alt="Recipient easy return screen" loading="lazy"><figcaption>3 · Recipient Easy Return</figcaption></figure>
+    <figure><img src="mockups/4._live_recovery_tracker/screen.png" alt="Live recovery tracker timeline" loading="lazy"><figcaption>4 · Live Tracker</figcaption></figure>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p>Portfolio case study by <a href="https://github.com/cercit">Sameer Mittimani</a>. A product concept, not affiliated with or endorsed by PhonePe. Personas, quotes and data are illustrative. The "UPI Recover" mark is a concept, not an official logo.</p>
+</div></footer>
+
+<script>
+  document.querySelectorAll('.tabs button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('.tabs button').forEach(function (x) { x.setAttribute('aria-selected', x === b ? 'true' : 'false'); });
+      document.querySelectorAll('.panel').forEach(function (p) { p.hidden = p.id !== b.dataset.p; });
+    });
+  });
+</script>
+</body>
+</html>

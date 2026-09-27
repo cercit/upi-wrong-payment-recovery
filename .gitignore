@@ -6,3 +6,8 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Local build output
+_site/
+.vscode/
+__pycache__/
