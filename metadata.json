@@ -1,0 +1,6 @@
+{
+  "name": "PhonePe UPI Easy-Return & Live Recovery",
+  "description": "Production fintech interface for accidental UPI payment recovery, instant reversal prompts, and live dispute tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
