@@ -137,7 +137,7 @@ export default function App() {
           onBack={handleBack}
           onHelpClick={() => setIsSupportOpen(true)}
           onProfileClick={() =>
-            showToast('Logged in as cercit@gmail.com (PhonePe Verified User)')
+            showToast('Logged in as Suresh Kumar (demo user)')
           }
         />
 
