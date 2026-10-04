@@ -15,3 +15,5 @@ __pycache__/
 # Not ours to publish / regenerable
 sprint-planning/session-guide.md
 brag-output/composition/
+brag-output-v2/composition/
+brag-output-v2/snaps/

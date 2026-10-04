@@ -1,7 +1,7 @@
 # PRD to Sprint: learnings and handover
 
 Session: 4 Oct 2026 workshop (PRD to Sprint). Project: PhonePe Wrong-UPI Payment Recovery ("UPI Recover").
-Status: stories are in Jira, sprints are not set up yet. Plan to pick this up next week.
+Status (updated 4 Oct, evening): stories, 5 sprints and all 48 tasks are in Jira; the sheet carries the Jira keys. Left: delete PR-11, backlog audit, sign-offs.
 
 ---
 
@@ -43,11 +43,23 @@ Plan: 9 weeks (4 two-week sprints + a pilot week) from Mon 5 Oct 2026. Critical 
 ## 3. Open to-dos for next week (in order)
 
 1. **Delete PR-11** in Jira. It's a duplicate of US7, created by a connector glitch; deleting is permanent, so do it yourself.
-2. Create 4 sprints in Jira with dates and move the stories in (see the table above).
-3. Add team tasks as sub-tasks (Tasks tab: 48 tasks, incl. FND, SPK-1, HRD).
+2. ~~Create 4 sprints in Jira~~ DONE 4 Oct. Board 34 has 5 sprints with goals and dates (names must be under 30 characters):
+
+   | Sprint | Dates | Stories |
+   |---|---|---|
+   | S1 Recover button + request | 5–16 Oct | PR-3, PR-4 + FND tasks |
+   | S2 Case service + safe exits | 19–30 Oct | PR-5, PR-6, PR-7 |
+   | S3 Recipient + full return | 2–13 Nov | PR-8, PR-9 |
+   | S4 Dispute + partial return | 16–27 Nov | PR-12, PR-10 |
+   | Pilot readiness (week 9) | 30 Nov–4 Dec | HRD tasks |
+
+3. ~~Add team tasks as sub-tasks~~ DONE 4 Oct: PR-13 to PR-60, no gaps or duplicates.
+   - The 42 story tasks are Subtasks under their story. The 3 FND and 3 HRD tasks are Tasks placed straight into S1 and the pilot sprint.
+   - Labels by team (Design, Backend, Mobile, QA, Data, PM), plus critical-path, spike, foundation and hardening.
+   - In a team-managed project, a sub-task sits in its parent's sprint. So early tasks (T2.2, T3.1, T4.5, T5.1, T7.1, T8.1–8.3) show under their story's sprint, and their description says when they're really due.
 4. Run the **backlog audit** (prompt 22) on US2b, US6 and US5, triage the findings, update the acceptance criteria, and add at least 1 "From AI audit" card.
 5. ~~Build the Trello board~~ DONE 4 Oct on https://trello.com/b/OyxET2NR/my-trello-board: 5 lists with WIP in the names, 9 story cards with size colours (green S, yellow M, orange L), Definition of Done pinned at the top of Backlog (the connector can't edit the board description or label names). Sprint Backlog holds Sprint 1 (US1 + US2a, 3 pts). Trello Starter Guide list left as is.
-6. Fill the Jira key / Trello list columns in the sheet.
+6. ~~Fill the Jira key / Trello list columns in the sheet~~ DONE 4 Oct (Backlog S:T, Tasks K:L; tasks show "—" for Trello because only stories live there).
 7. Sign off the [proposal] numbers (2-second load, 48 dp, test-set sizes) and the open PRD questions: sponsor bank, dispute owner, eligibility rules.
 8. Optional: LinkedIn post on the class lesson (walkthrough style, /human).
 

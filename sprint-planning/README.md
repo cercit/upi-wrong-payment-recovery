@@ -12,7 +12,7 @@ How the UPI Recover PRD became a backlog a team could start building on Monday. 
 | Acceptance criteria | 48 in Given / When / Then, 6 per story: Performance, Quality, Reliability, Security, Transparency, Usability |
 | Sizing | Size S/M/L as time (1 wk / 2 wk / 1 month), Risk and Impact 1–5, Total = Risk + Impact |
 | Plan | 9 weeks: 4 two-week sprints plus a pilot-readiness week. US2b (case ID) is the critical path |
-| Tracking | Google Sheet (dashboard, story×week grid, timeline, tasks, risks), Jira (2 epics, 9 stories), Trello (WIP-limited board) |
+| Tracking | Google Sheet (dashboard, story×week grid, timeline, tasks, risks), Jira (2 epics, 9 stories, 48 tasks across 4 sprints + a pilot-readiness sprint), Trello (WIP-limited board) |
 
 ## Files, in the order they were made
 
