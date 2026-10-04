@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>UPI Recover — Wrong-UPI Payment Recovery</title>
-<meta name="description" content="PM case study: a wrong-UPI-payment recovery flow for PhonePe. Problem, metrics, personas, competitor research, RICE and requirements, plus a clickable prototype.">
+<meta name="description" content="PM case study: a wrong-UPI-payment recovery flow for PhonePe. Problem, metrics, personas, competitor research, RICE, requirements, a clickable prototype, and the PRD-to-sprint plan.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' rx='22' fill='%236b2fd6'/%3E%3Ctext x='40' y='54' text-anchor='middle' font-family='Arial' font-size='40' font-weight='800' fill='%23ffd94d'%3E%E2%82%B9%3C/text%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <style>
@@ -79,6 +79,15 @@
   .nfr { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
   .nfr div { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; display: flex; gap: 14px; align-items: flex-start; }
   .nfr b.letter { flex: none; width: 38px; height: 38px; border-radius: 10px; background: var(--pur-bg); color: var(--pur); display: grid; place-items: center; font-size: 18px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 22px; }
+  .stats div { background: var(--pur-bg); border-radius: 16px; padding: 16px 18px; }
+  .stats b { display: block; font-size: 32px; font-weight: 900; color: var(--pur); line-height: 1.1; }
+  .stats span { font-size: 14px; color: var(--muted); font-weight: 600; }
+  .gantt td { padding: 8px 6px; text-align: center; font-size: 14px; }
+  .gantt td:first-child { text-align: left; white-space: nowrap; }
+  .gantt td.on { background: var(--blu-bg); }
+  .gantt td.demo { background: var(--grn-bg); color: var(--grn); font-weight: 800; }
+  .crit td:first-child { font-weight: 800; }
   .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
   .shots img { border-radius: 22px; }
   footer { padding: 40px 0 60px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); }
@@ -94,6 +103,7 @@
   <a class="l" href="#solution">Solution</a>
   <a class="l" href="#requirements">Requirements</a>
   <a class="l" href="#screens">Screens</a>
+  <a class="l" href="#sprint">Sprint plan</a>
   <a class="l" href="app/">Prototype</a>
 </div></nav>
 
@@ -104,6 +114,7 @@
   <div class="ctas">
     <a class="btn primary" href="app/">▶ Try the prototype</a>
     <a class="btn ghost" href="https://github.com/cercit/upi-wrong-payment-recovery/blob/main/docs/PRD.md">Read the PRD</a>
+    <a class="btn ghost" href="#sprint">See the sprint plan</a>
     <a class="btn ghost" href="https://github.com/cercit/upi-wrong-payment-recovery">View on GitHub</a>
   </div>
   <div class="note hand">"One wrong digit and the money's gone. Now what?"</div>
@@ -195,6 +206,61 @@
     <figure><img src="mockups/3._recipient_easy_return_screen/screen.png" alt="Recipient easy return screen" loading="lazy"><figcaption>3 · Recipient Easy Return</figcaption></figure>
     <figure><img src="mockups/4._live_recovery_tracker/screen.png" alt="Live recovery tracker timeline" loading="lazy"><figcaption>4 · Live Tracker</figcaption></figure>
   </div>
+</div></section>
+
+<section id="sprint"><div class="wrap">
+  <h2>From PRD to sprint plan</h2>
+  <p style="color:var(--muted);margin-bottom:18px;max-width:820px">The PRD's P0 and P1 solutions turned into a backlog the team could start on Monday: user stories that pass INVEST, measurable acceptance criteria, sizing, and a week-by-week plan, all tracked in Jira and Trello. Live Tracker (P2) is held for a later release.</p>
+  <div class="stats">
+    <div><b>9</b><span>user stories, all passing INVEST</span></div>
+    <div><b>48</b><span>acceptance criteria in Given / When / Then</span></div>
+    <div><b>9 wks</b><span>4 two-week sprints + a pilot week</span></div>
+    <div><b>16</b><span>story points across 2 epics</span></div>
+  </div>
+
+  <h3 style="margin:8px 0 12px">Backlog and sizing</h3>
+  <div class="tscroll"><table>
+    <thead><tr><th>#</th><th>User story</th><th>Size</th><th>Risk</th><th>Impact</th><th>Sprint</th></tr></thead>
+    <tbody>
+      <tr><td><b>US1</b></td><td>Sender sees a "Recover payment" button on an eligible receipt</td><td>S</td><td>3</td><td>5</td><td>1</td></tr>
+      <tr><td><b>US2a</b></td><td>Prefilled, locked request: no typing, no jargon</td><td>M</td><td>3</td><td>5</td><td>1</td></tr>
+      <tr><td><b>US2b</b></td><td>Case ID in 10 seconds, no duplicates on a network drop or double tap</td><td>L</td><td>5</td><td>5</td><td>2</td></tr>
+      <tr><td><b>US3</b></td><td>Told which eligibility rule failed, and where to go instead</td><td>M</td><td>2</td><td>2</td><td>2</td></tr>
+      <tr><td><b>US4</b></td><td>"This was a scam" goes to the 1930 helpline, never to the recipient</td><td>M</td><td>3</td><td>5</td><td>2</td></tr>
+      <tr><td><b>US5</b></td><td>Recipient gets a safe request: amount, first name and date only</td><td>S</td><td>2</td><td>2</td><td>3</td></tr>
+      <tr><td><b>US6</b></td><td>Recipient returns the full amount with their UPI PIN, sender masked</td><td>S</td><td>4</td><td>4</td><td>3</td></tr>
+      <tr><td><b>US8</b></td><td>Recipient taps "This isn't a mistake" and the case goes to bank review</td><td>M</td><td>4</td><td>2</td><td>4</td></tr>
+      <tr><td><b>US7</b></td><td>Partial return: send what you have, the case stays open for the rest</td><td>M</td><td>4</td><td>3</td><td>4</td></tr>
+    </tbody>
+  </table></div>
+  <p style="color:var(--muted);font-size:14px;margin-top:8px">Size: S = 1 week, M = 2 weeks, L = 1 month. Risk and Impact are scored 1–5. Each story carries six acceptance criteria, one per quality lens: Performance, Quality, Reliability, Security, Transparency, Usability.</p>
+
+  <h3 style="margin:26px 0 12px">Week-by-week timeline</h3>
+  <div class="tscroll"><table class="gantt">
+    <thead><tr><th>Story</th><th>W1</th><th>W2</th><th>W3</th><th>W4</th><th>W5</th><th>W6</th><th>W7</th><th>W8</th><th>W9</th></tr></thead>
+    <tbody>
+      <tr><td>US1 Recover button</td><td class="demo">✔</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>US2a Prefilled request</td><td class="on"></td><td class="demo">✔</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr class="crit"><td>US2b Case ID (critical path)</td><td class="on"></td><td class="on"></td><td class="on"></td><td class="demo">✔</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>US3 Why it doesn't qualify</td><td></td><td class="on"></td><td class="demo">✔</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>US4 Scam route</td><td></td><td></td><td class="on"></td><td class="demo">✔</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>US5 Safe request</td><td></td><td></td><td></td><td></td><td class="demo">✔</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>US6 Full return</td><td></td><td></td><td></td><td></td><td></td><td class="demo">✔</td><td></td><td></td><td></td></tr>
+      <tr><td>US8 Dispute</td><td></td><td></td><td></td><td></td><td></td><td class="on"></td><td class="demo">✔</td><td></td><td></td></tr>
+      <tr><td>US7 Partial return</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="on"></td><td class="demo">✔</td><td></td></tr>
+      <tr><td>Pilot readiness</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="demo">✔</td></tr>
+    </tbody>
+  </table></div>
+  <p style="color:var(--muted);font-size:14px;margin-top:8px">Sprints 1–2 build One-tap Recover; Sprints 3–4 build Easy Return. Easy Return can't start until US2b creates cases, so US2b sets the length of the whole plan.</p>
+
+  <h3 style="margin:26px 0 12px">What the review caught before any code</h3>
+  <div class="grid g2">
+    <div class="card tint-red"><h3>A privacy leak</h3><p>A return payment would have shown the sender's UPI ID, which often contains a phone number. Fixed by showing a masked name ("Ritika S."), with a spike planned to prove it can be built.</p></div>
+    <div class="card tint-yel"><h3>Two stories that contradicted each other</h3><p>One story hid the Recover button on ineligible payments, while another needed users to tap it. Fixed with a "Help → I paid the wrong person" entry.</p></div>
+    <div class="card tint-blu"><h3>A quarter-long story</h3><p>"Prefilled request + case ID" was sized XL. Splitting it into a screen (M) and a case service (L) exposed the critical path, and the plan went from 5 to 9 weeks.</p></div>
+    <div class="card tint-grn"><h3>The scam path</h3><p>A scam report must never contact the recipient. It goes straight to the 1930 helpline and cybercrime.gov.in, so scammers can't use the flow to pressure people.</p></div>
+  </div>
+  <p style="margin-top:18px"><a href="https://github.com/cercit/upi-wrong-payment-recovery/tree/main/sprint-planning">Stories, acceptance criteria, sizing and learnings on GitHub →</a></p>
 </div></section>
 
 <footer><div class="wrap">

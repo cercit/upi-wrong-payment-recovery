@@ -66,8 +66,31 @@ This repo includes a mockup set designed around the proposed user flow:
 
 The sample screens live under [mockups/stitch_phonepe_ui_mockups](mockups/stitch_phonepe_ui_mockups).
 
+## From PRD to sprint plan
+The P0 and P1 solutions were turned into a sprint-ready backlog:
+- 9 user stories that pass INVEST
+- 48 acceptance criteria in Given / When / Then
+- sizing, and a 9-week plan of 4 sprints plus a pilot week
+
+The review caught a privacy leak, a contradiction between two stories, and a quarter-long story that set the critical path. Full write-up: [sprint-planning/](sprint-planning/README.md). It's also on the live site under **Sprint plan**.
+
+| Story | Size | Risk | Impact | Sprint |
+|---|---|---|---|---|
+| US1 Recover button on receipt | S | 3 | 5 | 1 |
+| US2a Prefilled, locked request | M | 3 | 5 | 1 |
+| US2b Case ID in 10 s, no duplicates | L | 5 | 5 | 2 |
+| US3 Why payment doesn't qualify | M | 2 | 2 | 2 |
+| US4 Scam goes to the fraud route | M | 3 | 5 | 2 |
+| US5 Safe request to recipient | S | 2 | 2 | 3 |
+| US6 Full return with UPI PIN | S | 4 | 4 | 3 |
+| US8 "This isn't a mistake" | M | 4 | 2 | 4 |
+| US7 Partial return | M | 4 | 3 | 4 |
+
+A launch video made from the project is in [brag-output/](brag-output/) (`brag.mp4`).
+
 ## Project structure
-- [docs/PRD.md](docs/PRD.md): full PRD (problem, goals, metrics, persona, empathy and journey maps, RICE, requirements)
+- [docs/PRD.md](docs/PRD.md): full PRD (problem, goals, metrics, persona, empathy and journey maps, RICE, eligibility, acceptance criteria, risks, rollout)
+- [sprint-planning](sprint-planning/README.md): user stories, acceptance criteria, sizing, sprint plan and learnings
 - [docs/competitor-features.md](docs/competitor-features.md): 15-feature competitor benchmark with sources
 - [docs/context.md](docs/context.md): project background
 - [docs/plan.md](docs/plan.md): roadmap and phases

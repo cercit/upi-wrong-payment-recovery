@@ -11,3 +11,7 @@ coverage/
 _site/
 .vscode/
 __pycache__/
+
+# Not ours to publish / regenerable
+sprint-planning/session-guide.md
+brag-output/composition/

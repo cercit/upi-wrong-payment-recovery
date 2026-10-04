@@ -1,7 +1,11 @@
-**1 Problem statement \-**   
+# Main PRD: Wrong UPI Payment Recovery (PhonePe)
+
+Consolidated 4 Oct 2026 from [docs/PRD.md](../docs/PRD.md) and the persona, empathy and journey posters in docs/images. This is the source for sprint planning.
+
+## 1 Problem statement   
 When PhonePe users accidentally transfer money to the wrong UPI ID, they have no direct mechanism to reverse the transaction. They are left to navigate a fragmented recovery process involving the recipient, banks, NPCI, and potentially the RBI Ombudsman, with limited visibility into what action to take, who is responsible, and what happens next. This creates uncertainty and friction at a moment when users are primarily concerned with recovering their money quickly.
 
-2 **Goals and Non Goals**  
+## 2 Goals and non-goals  
 **2.1 Goal**
 
 1. Enable faster recovery initiation   
@@ -16,21 +20,100 @@ When PhonePe users accidentally transfer money to the wrong UPI ID, they have no
 
    
 
-**3 Success Matrix**  
+## 3 Success metrics  
 **3.1 North Star Metric :** % of eligible wrong-UPI-payment cases where the user successfully recovers the transferred money through the recovery process.   
 *Formula: Successfully Recovered Cases ÷ Eligible Recovery Cases × 100*   
 **3.2 L1 –** Recovery success rate, number of successful recoveries, median recovery time.  
 **3.3 Counter –** Recovery abandonment rate, recovery-related complaint rate, % of cases requiring manual intervention.
 
-**4 User Persona**  
-![User persona](images/persona-poster.png)  
-**5 User Empathy Map (PhonePe)**  
-![Empathy map](images/empathy-map.png)  
+## 4 User personas
 
-**5.1 Customer Journey Map**  
-![Journey map](images/journey-map.png)  
+![User persona](../docs/images/persona-poster.png)
 
-*Full competitor research (15 features with sources): [competitor-features.md](competitor-features.md)*
+Both users share one problem: a single wrong digit and the money is gone. Each needs a different fix.
+
+**4.1 Primary: Ritika Sharma, the everyday sender**
+
+| | |
+|---|---|
+| Profile | 26–32, marketing executive at an IT firm, Pune (metro), ₹8–12 lakh a year, shares a flat with two flatmates, high digital literacy |
+| Day | Pays rent, bills and splits on PhonePe, 20+ times a week |
+| Tech | Mid-range Android 14 phone plus a work laptop. PhonePe, GPay and her bank app. Unlimited 5G and home Wi-Fi. No accessibility needs |
+| Pains | "No undo once a wrong payment goes through." "Bank, PhonePe or NPCI: who owns this?" "Tickets close with no next step." |
+| Gains | "Raise a recovery request in one tap." "See every step, owner and deadline." "Money back without chasing a stranger." |
+| Mindset | Motivation: recover fast and move on. Values: transparency, speed, control. Fear: losing ₹4,500 of rent to one typo |
+| Today | Calls the bank, raises a ticket, messages the payee. Satisfaction 2/5 |
+| Success | Money back within 7 days |
+| Wants | Recover right after a wrong payment. One tracker that shows who has her case. Real timelines, not "we'll revert". Alerts at each stage, with no chasing |
+
+**4.2 Secondary: Sunita Yadav, the shop owner**
+
+| | |
+|---|---|
+| Profile | 40–50, runs a family grocery store in Indore, MP (tier 2), ₹5–7 lakh a year (business), family of five (her son helps), moderate literacy, Hindi-first |
+| Day | Takes 60+ UPI payments and pays suppliers every evening |
+| Tech | Budget Android 12 phone shared with family. PhonePe and PhonePe Business. Uses WhatsApp and YouTube and little else. Patchy 4G with a 1.5 GB daily cap. Needs large text and Hindi voice help |
+| Pains | "One wrong number, ₹18,000 gone." "English forms, words like NPCI." "Can't leave the shop for the bank." |
+| Gains | "Steps in Hindi, with voice help." "A call-back from a real person." "Proof I can show my supplier." |
+| Mindset | Motivation: protect cash for tomorrow's stock. Values: trust, simplicity, being heard. Fear: getting scammed again while recovering |
+| Today | Asks her son, then visits the branch. Satisfaction 1/5 |
+| Success | Money back before the next order |
+| Wants | Recovery in Hindi, step by step. A person to talk to when stuck. A case number the bank accepts. Works on slow internet |
+
+## 5 Empathy map (Ritika)
+
+![Empathy map](../docs/images/empathy-map.png)
+
+> "I don't need magic. I need to know who has my money and when it comes back."
+
+| Quadrant | What we found |
+|---|---|
+| Thinks | "Did I just lose my rent?" "Was this my fault or the app's?" "Will a stranger ever send it back?" "Is this worth a bank visit?" "I need proof I tried everything." |
+| Hears | Flatmate: "Just call your bank." Office group: "UPI money never comes back." YouTube: "Complain to NPCI." Parents: "Check the name next time." Friend: "My cousin got it in 3 days." |
+| Sees | A debit SMS with no undo option. Help pages full of UTR and NPCI. A support ticket auto-closed. YouTube videos with mixed advice. A payee who doesn't answer calls. Rent due in five days |
+| Feels | Panicked, embarrassed, confused, frustrated, anxious, powerless. Then hopeful, relieved, and trusting once it works |
+
+**The real problem, step by step**
+
+1. **Problem:** wrong UPI payments can't be undone, and recovery is split across the payee, the bank and NPCI. "I sent ₹4,500 to a typo."
+2. **Need:** one place to raise, follow and close a recovery. "Just tell me what to do next."
+3. **Insight:** users stay calm when they can see an owner and a deadline. "If I can track it, I can wait."
+4. **Opportunity:** a "Recover payment" button on the receipt, details prefilled, with a live tracker. "One tap, and it's already moving."
+5. **Desired outcome:** more wrong payments recovered, and faster (the North Star). "Got it back, and I still trust UPI."
+
+## 5.1 Customer journey map (Ritika)
+
+![Journey map](../docs/images/journey-map.png)
+
+| Stage | Feels | Does | Where | Pain point | How might we |
+|---|---|---|---|---|---|
+| 1 Awareness | Panic | Spots the wrong UPI ID, rechecks payment history | Debit SMS, PhonePe receipt screen | **No undo:** "There's no cancel option." | Offer recovery on the receipt? |
+| 2 Consideration | Confused | Googles "wrong UPI refund", weighs app vs bank | PhonePe Help, bank IVR, YouTube, Google | **Owners unclear:** "Bank says ask PhonePe." | Name one owner upfront? |
+| 3 Onboarding | Relieved | Taps "Recover payment", confirms amount and payee | Transaction screen, in-app recovery form | **Jargon:** "What's a UTR number?" | Prefill details from the payment? |
+| 4 Retention | Anxious | Checks case status, answers bank prompts | Push and SMS alerts, in-app tracker | **Silent waits:** "Ticket closed, money not back." | Show stage, owner, deadline? |
+| 5 Loyalty | Trusting | Gets the refund, tells flatmates and family | WhatsApp groups, Play Store review | **Unclear closure:** "Did all of it return?" | Turn recoveries into trust? |
+
+**Top 4 fixes, in priority order**
+
+| # | Fix | Journey pain it fixes | Metric | Effort |
+|---|---|---|---|---|
+| 1 | "Recover payment" button on the receipt | No undo (Awareness) | % of wrong payments with a request in 24 h | S |
+| 2 | Prefill UTR, amount and payee | Jargon (Onboarding) | Request completion rate | S |
+| 3 | Live tracker with owner and deadline | Silent waits (Retention) | Recovery abandonment rate | M |
+| 4 | Hindi and regional flows plus call-back | Unclear owners (Consideration) | Tier-2 request start rate | M |
+
+Journey snapshot: wrong-payment panic → one-tap request → trusts PhonePe again.
+
+**How the research maps to the features in section 6**
+
+| Feature | Persona need it answers | Journey stage |
+|---|---|---|
+| One-tap Recover (P0) | Ritika: "Recover right after a wrong payment." Sunita: "Can't leave the shop for the bank" | Awareness, Onboarding |
+| Easy Return (P1) | Ritika: "Money back without chasing a stranger" | Retention |
+| Live Tracker (P2) | Ritika: "One tracker: who has my case." Sunita: "A case number the bank accepts" | Retention, Loyalty |
+| Languages, large text, call-back, 3G (NFR) | Sunita: Hindi-first, patchy 4G, needs a person when stuck | Consideration, all stages |
+
+*Full competitor research (15 features with sources): [competitor-features.md](../docs/competitor-features.md)*
 
 ## 6 Proposed solution
 
