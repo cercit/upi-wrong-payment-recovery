@@ -1,6 +1,6 @@
 # Wrong UPI Payment Recovery Flow
 
-**Live site:** https://cercit.github.io/PRD_Workshop/ · **Prototype:** https://cercit.github.io/PRD_Workshop/app/
+**Live site:** https://cercit.github.io/upi-wrong-payment-recovery/ · **Prototype:** https://cercit.github.io/upi-wrong-payment-recovery/app/
 
 A fintech product concept and PM portfolio case study focused on helping users recover accidentally sent UPI payments quickly, clearly, and with less friction.
 

@@ -24,7 +24,7 @@ jobs:
           node-version: 22
       - run: npm install --no-audit --no-fund
       - name: Build prototype into /app
-        run: npx vite build --base=/PRD_Workshop/app/ --outDir _site/app
+        run: npx vite build --base=/upi-wrong-payment-recovery/app/ --outDir _site/app
       - name: Add case-study page, images and mockups
         run: |
           cp site/index.html _site/index.html
